@@ -133,8 +133,6 @@ This project is for educational purposes as part of the 10 Academy curriculum.
 
 ## Acknowledgments
 
-- **Tutors**: Mahlet, Rediet, Kerod, Rehmet
-- **Institution**: 10 Academy - Artificial Intelligence Mastery
 - **Data Source**: YFinance (Yahoo Finance API)
 
 ## Contact
