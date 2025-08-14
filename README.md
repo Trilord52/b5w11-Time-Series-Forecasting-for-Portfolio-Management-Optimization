@@ -29,7 +29,6 @@ We use historical and forecasted data for TSLA, BND, and SPY to:
   - [8. Backtesting](#8-backtesting)
 - [How to Run](#how-to-run)
 - [Results & Interpretation](#results--interpretation)
-- [Limitations & Next Steps](#limitations--next-steps)
 - [Rubric Checklist](#rubric-checklist)
 - [Contributing](#contributing)
 - [License](#license)
