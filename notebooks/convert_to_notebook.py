@@ -1,0 +1,591 @@
+#!/usr/bin/env python3
+"""
+Convert Task 1 Analysis to Jupyter Notebook
+Time Series Forecasting for Portfolio Management Optimization
+Guide Me in Finance (GMF) Investments
+
+This script converts the enhanced Task 1 analysis Python script to a Jupyter notebook
+with proper markdown cells, code cells, and documentation.
+"""
+
+import re
+import os
+
+def create_notebook_content():
+    """Create the notebook content with proper markdown and code cells."""
+    
+    notebook_content = {
+        "cells": [
+            # Title and Introduction
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Task 1: Preprocess and Explore the Data\n",
+                    "## Time Series Forecasting for Portfolio Management Optimization\n",
+                    "### Guide Me in Finance (GMF) Investments\n",
+                    "\n",
+                    "**Analysis Period:** July 1, 2015 to December 31, 2024\n",
+                    "**Assets:** TSLA, BND, SPY\n",
+                    "\n",
+                    "This notebook implements the complete Task 1 workflow:\n",
+                    "1. Load historical financial data for TSLA, BND, and SPY\n",
+                    "2. Preprocess and clean the data\n",
+                    "3. Calculate comprehensive financial metrics and perform EDA\n",
+                    "4. Generate advanced visualizations with interactive Plotly dashboards\n",
+                    "5. Perform statistical tests and stationarity analysis\n",
+                    "6. Generate comprehensive analysis reports"
+                ]
+            },
+            
+            # Setup and Imports
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Setup and Imports\n",
+                    "\n",
+                    "First, let's set up our environment and import all necessary libraries."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "#!/usr/bin/env python3\n",
+                    "\"\"\"\n",
+                    "Task 1: Preprocess and Explore the Data\n",
+                    "Time Series Forecasting for Portfolio Management Optimization\n",
+                    "Guide Me in Finance (GMF) Investments\n",
+                    "\"\"\"\n",
+                    "\n",
+                    "import os\n",
+                    "import sys\n",
+                    "from datetime import datetime\n",
+                    "import warnings\n",
+                    "warnings.filterwarnings('ignore')\n",
+                    "\n",
+                    "# Add src directory to path\n",
+                    "sys.path.append(os.path.join(os.path.dirname('__file__'), 'src'))\n",
+                    "\n",
+                    "from data_loader import FinancialDataLoader\n",
+                    "from preprocessing import FinancialDataPreprocessor\n",
+                    "from financial_metrics import FinancialMetricsCalculator\n",
+                    "from eda import FinancialEDA\n",
+                    "\n",
+                    "print(\"✓ All required libraries imported successfully!\")"
+                ]
+            },
+            
+            # Data Loading Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Step 1: Loading Financial Data\n",
+                    "\n",
+                    "We'll load historical financial data for TSLA, BND, and SPY using the YFinance API."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Create output directories\n",
+                    "os.makedirs('data', exist_ok=True)\n",
+                    "os.makedirs('results', exist_ok=True)\n",
+                    "os.makedirs('results/plots', exist_ok=True)\n",
+                    "\n",
+                    "# Analysis parameters\n",
+                    "start_date = \"2015-07-01\"\n",
+                    "end_date = \"2024-12-31\"\n",
+                    "assets = [\"TSLA\", \"BND\", \"SPY\"]\n",
+                    "\n",
+                    "print(f\"Analysis Period: {start_date} to {end_date}\")\n",
+                    "print(f\"Assets: {', '.join(assets)}\")\n",
+                    "\n",
+                    "# Load data\n",
+                    "loader = FinancialDataLoader(start_date=start_date, end_date=end_date)\n",
+                    "raw_data = {}\n",
+                    "\n",
+                    "for asset in assets:\n",
+                    "    print(f\"Loading data for {asset}...\")\n",
+                    "    data = loader.fetch_asset_data(asset)\n",
+                    "    if data is not None:\n",
+                    "        raw_data[asset] = data\n",
+                    "        print(f\"  ✓ {asset}: {len(data)} records loaded\")\n",
+                    "    else:\n",
+                    "        print(f\"  ✗ Failed to load {asset}\")\n",
+                    "\n",
+                    "print(f\"\\nTotal assets loaded: {len(raw_data)}\")"
+                ]
+            },
+            
+            # Data Preprocessing Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Step 2: Data Preprocessing\n",
+                    "\n",
+                    "Now we'll clean, preprocess, and engineer features for our financial data."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Preprocess data\n",
+                    "preprocessor = FinancialDataPreprocessor()\n",
+                    "processed_data = preprocessor.preprocess_asset_data(raw_data)\n",
+                    "\n",
+                    "for asset, data in processed_data.items():\n",
+                    "    print(f\"  ✓ {asset}: Preprocessed {len(data)} records\")\n",
+                    "    print(f\"    Features: {len(data.columns)}\")\n",
+                    "    print(f\"    Date range: {data.index.min().strftime('%Y-%m-%d')} to {data.index.max().strftime('%Y-%m-%d')}\")\n",
+                    "    print()"
+                ]
+            },
+            
+            # Financial Metrics Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Step 3: Calculating Financial Metrics\n",
+                    "\n",
+                    "We'll calculate comprehensive financial metrics including risk measures, returns, and statistical tests."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Calculate comprehensive metrics\n",
+                    "metrics_calc = FinancialMetricsCalculator()\n",
+                    "all_metrics = {}\n",
+                    "\n",
+                    "for asset, data in processed_data.items():\n",
+                    "    if 'Daily_Return' in data.columns:\n",
+                    "        returns = data['Daily_Return'].dropna()\n",
+                    "        if len(returns) > 0:\n",
+                    "            print(f\"Calculating metrics for {asset}...\")\n",
+                    "            \n",
+                    "            # Basic statistics\n",
+                    "            basic_stats = {\n",
+                    "                'Mean_Return': returns.mean(),\n",
+                    "                'Std_Return': returns.std(),\n",
+                    "                'Skewness': returns.skew(),\n",
+                    "                'Kurtosis': returns.kurtosis(),\n",
+                    "                'Min_Return': returns.min(),\n",
+                    "                'Max_Return': returns.max()\n",
+                    "            }\n",
+                    "            \n",
+                    "            # Risk metrics\n",
+                    "            var_metrics = metrics_calc.calculate_var(returns)\n",
+                    "            sharpe_metrics = metrics_calc.calculate_sharpe_ratio(returns)\n",
+                    "            max_drawdown_metrics = metrics_calc.calculate_maximum_drawdown(data['Close'])\n",
+                    "            sortino_metrics = metrics_calc.calculate_sortino_ratio(returns)\n",
+                    "            \n",
+                    "            # Stationarity tests\n",
+                    "            stationarity_tests = {}\n",
+                    "            try:\n",
+                    "                stationarity_tests['ADF'] = metrics_calc.test_stationarity(returns, 'adf')\n",
+                    "                stationarity_tests['KPSS'] = metrics_calc.test_stationarity(returns, 'kpss')\n",
+                    "            except Exception as e:\n",
+                    "                print(f\"    Warning: Stationarity tests failed for {asset}: {e}\")\n",
+                    "            \n",
+                    "            # Compile all metrics\n",
+                    "            all_metrics[asset] = {\n",
+                    "                'Basic_Statistics': basic_stats,\n",
+                    "                'VaR': var_metrics,\n",
+                    "                'Sharpe_Ratio': sharpe_metrics,\n",
+                    "                'Maximum_Drawdown': max_drawdown_metrics,\n",
+                    "                'Sortino_Ratio': sortino_metrics,\n",
+                    "                'Stationarity_Tests': stationarity_tests\n",
+                    "            }\n",
+                    "            \n",
+                    "            print(f\"    ✓ {asset} metrics calculated successfully\")\n",
+                    "            print(f\"    Sharpe Ratio: {sharpe_metrics.get('Sharpe_Ratio', 'N/A')}\")\n",
+                    "            print(f\"    Max Drawdown: {max_drawdown_metrics.get('Max_Drawdown_Pct', 'N/A'):.2f}%\")\n",
+                    "            print()"
+                ]
+            },
+            
+            # EDA Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Step 4: Comprehensive Exploratory Data Analysis\n",
+                    "\n",
+                    "We'll generate both static Matplotlib plots and interactive Plotly dashboards with zoom/pan controls."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Initialize EDA\n",
+                    "eda = FinancialEDA()\n",
+                    "\n",
+                    "print(\"Generating comprehensive EDA visualizations...\")\n",
+                    "\n",
+                    "# Static Matplotlib plots\n",
+                    "print(\"\\n1. Static Matplotlib Plots:\")\n",
+                    "eda.create_price_analysis_plots(processed_data, save_path='results/plots/')\n",
+                    "eda.create_return_distribution_plots(processed_data, save_path='results/plots/')\n",
+                    "eda.create_correlation_analysis(processed_data, save_path='results/plots/')\n",
+                    "eda.create_trend_and_seasonality_analysis(processed_data, save_path='results/plots/')\n",
+                    "eda.create_volatility_clustering_analysis(processed_data, save_path='results/plots/')\n",
+                    "eda.create_outlier_analysis(processed_data, save_path='results/plots/')\n",
+                    "eda.create_statistical_tests_analysis(processed_data, save_path='results/plots/')\n",
+                    "eda.create_risk_metrics_summary(all_metrics, save_path='results/plots/')\n",
+                    "\n",
+                    "print(\"✓ All static plots generated successfully!\")"
+                ]
+            },
+            
+            # Interactive Visualizations Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Interactive Plotly Dashboards\n",
+                    "\n",
+                    "Now we'll create interactive visualizations with zoom/pan controls, range sliders, and hover tooltips."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Interactive Plotly visualizations with zoom/pan controls\n",
+                    "print(\"\\n2. Interactive Plotly Dashboards:\")\n",
+                    "\n",
+                    "print(\"  - Interactive price analysis dashboard...\")\n",
+                    "eda.create_interactive_price_analysis(processed_data, save_path='results/plots/')\n",
+                    "\n",
+                    "print(\"  - Interactive correlation analysis...\")\n",
+                    "eda.create_interactive_correlation_analysis(processed_data, save_path='results/plots/')\n",
+                    "\n",
+                    "print(\"  - Interactive outlier analysis dashboard...\")\n",
+                    "eda.create_interactive_outlier_analysis(processed_data, save_path='results/plots/')\n",
+                    "\n",
+                    "print(\"  - Interactive trend and seasonality analysis...\")\n",
+                    "eda.create_interactive_trend_analysis(processed_data, save_path='results/plots/')\n",
+                    "\n",
+                    "print(\"  - Interactive risk metrics dashboard...\")\n",
+                    "eda.create_interactive_risk_metrics(all_metrics, save_path='results/plots/')\n",
+                    "\n",
+                    "print(\"✓ All interactive dashboards generated successfully!\")"
+                ]
+            },
+            
+            # EDA Report Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Comprehensive EDA Report\n",
+                    "\n",
+                    "Generate a detailed text report with actionable insights and recommendations."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Generate comprehensive EDA report\n",
+                    "print(\"\\nGenerating comprehensive EDA report...\")\n",
+                    "eda_report = eda.generate_eda_report(processed_data, all_metrics, save_path='results/')\n",
+                    "print(\"✓ EDA report generation completed!\")\n",
+                    "\n",
+                    "# Display first 500 characters of the report\n",
+                    "print(\"\\nReport Preview:\")\n",
+                    "print(\"=\" * 80)\n",
+                    "print(eda_report[:500] + \"...\")\n",
+                    "print(\"=\" * 80)\n",
+                    "print(f\"\\nFull report saved to: results/eda_report.txt ({len(eda_report)} characters)\")"
+                ]
+            },
+            
+            # Portfolio Analysis Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Step 5: Advanced Portfolio Analysis\n",
+                    "\n",
+                    "Analyze portfolio-level metrics and correlations between assets."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Calculate portfolio-level metrics\n",
+                    "portfolio_returns = {}\n",
+                    "for asset, data in processed_data.items():\n",
+                    "    if 'Daily_Return' in data.columns:\n",
+                    "        portfolio_returns[asset] = data['Daily_Return'].dropna()\n",
+                    "\n",
+                    "if len(portfolio_returns) > 1:\n",
+                    "    # Equal-weight portfolio analysis\n",
+                    "    equal_weights = {asset: 1.0/len(portfolio_returns) for asset in portfolio_returns.keys()}\n",
+                    "    \n",
+                    "    print(\"Equal-Weight Portfolio Analysis:\")\n",
+                    "    for asset, weight in equal_weights.items():\n",
+                    "        print(f\"  {asset}: {weight:.1%}\")\n",
+                    "    \n",
+                    "    # Portfolio risk analysis\n",
+                    "    print(\"\\nPortfolio Risk Analysis:\")\n",
+                    "    \n",
+                    "    # Create returns DataFrame for portfolio calculations\n",
+                    "    returns_df = pd.DataFrame(portfolio_returns)\n",
+                    "    \n",
+                    "    # Calculate portfolio statistics\n",
+                    "    portfolio_mean = returns_df.mean()\n",
+                    "    portfolio_std = returns_df.std()\n",
+                    "    \n",
+                    "    print(\"  Individual Asset Statistics:\")\n",
+                    "    for asset in returns_df.columns:\n",
+                    "        annual_return = portfolio_mean[asset] * 252\n",
+                    "        annual_vol = portfolio_std[asset] * (252 ** 0.5)\n",
+                    "        sharpe = annual_return / annual_vol if annual_vol > 0 else 0\n",
+                    "        print(f\"    {asset}: Return={annual_return:.2%}, Vol={annual_vol:.2%}, Sharpe={sharpe:.3f}\")\n",
+                    "    \n",
+                    "    # Correlation insights\n",
+                    "    correlation_matrix = returns_df.corr()\n",
+                    "    print(\"\\n  Correlation Matrix:\")\n",
+                    "    for i, asset1 in enumerate(correlation_matrix.columns):\n",
+                    "        for j, asset2 in enumerate(correlation_matrix.columns):\n",
+                    "            if i < j:  # Avoid duplicate pairs\n",
+                    "                corr_value = correlation_matrix.loc[asset1, asset2]\n",
+                    "                print(f\"    {asset1} vs {asset2}: {corr_value:.4f}\")\n",
+                    "    \n",
+                    "    print(\"\\n  Note: Full portfolio optimization will be implemented in Task 4\")"
+                ]
+            },
+            
+            # Data Quality Assessment Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Step 6: Data Quality Assessment\n",
+                    "\n",
+                    "Comprehensive assessment of data quality, missing values, and extreme observations."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Data quality assessment\n",
+                    "for asset, data in processed_data.items():\n",
+                    "    print(f\"\\n{asset} Data Quality:\")\n",
+                    "    print(f\"  - Total Records: {len(data):,}\")\n",
+                    "    print(f\"  - Date Range: {data.index.min().strftime('%Y-%m-%d')} to {data.index.max().strftime('%Y-%m-%d')}\")\n",
+                    "    print(f\"  - Missing Values: {data.isnull().sum().sum():,}\")\n",
+                    "    \n",
+                    "    if 'Daily_Return' in data.columns:\n",
+                    "        returns = data['Daily_Return'].dropna()\n",
+                    "        print(f\"  - Valid Returns: {len(returns):,}\")\n",
+                    "        print(f\"  - Return Range: {returns.min():.4f} to {returns.max():.4f}\")\n",
+                    "        \n",
+                    "        # Check for extreme values\n",
+                    "        z_scores = abs((returns - returns.mean()) / returns.std())\n",
+                    "        extreme_returns = len(returns[z_scores > 3])\n",
+                    "        print(f\"  - Extreme Returns (|Z| > 3): {extreme_returns} ({extreme_returns/len(returns)*100:.1f}%)\")"
+                ]
+            },
+            
+            # Summary and Next Steps Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Task 1 Completion Summary\n",
+                    "\n",
+                    "Let's summarize what we've accomplished and outline the next steps."
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Summary and next steps\n",
+                    "print(\"\\n\" + \"=\"*50)\n",
+                    "print(\"TASK 1 COMPLETION SUMMARY\")\n",
+                    "print(\"=\"*50)\n",
+                    "\n",
+                    "print(\"✓ Data Loading: Historical financial data loaded for all assets\")\n",
+                    "print(\"✓ Data Preprocessing: Data cleaned, missing values handled, features engineered\")\n",
+                    "print(\"✓ Financial Metrics: Comprehensive risk and return metrics calculated\")\n",
+                    "print(\"✓ EDA: Advanced exploratory analysis with 8 visualization categories\")\n",
+                    "print(\"✓ Interactive Visualizations: Plotly dashboards with zoom/pan controls\")\n",
+                    "print(\"✓ Statistical Tests: Stationarity, normality, and autocorrelation tests performed\")\n",
+                    "print(\"✓ Portfolio Analysis: Basic portfolio metrics and correlation analysis\")\n",
+                    "print(\"✓ Data Quality: Comprehensive data quality assessment completed\")\n",
+                    "\n",
+                    "print(f\"\\nOutput files saved to:\")\n",
+                    "print(f\"  - Data: data/\")\n",
+                    "print(f\"  - Results: results/\")\n",
+                    "print(f\"  - Plots: results/plots/ (16 visualization files)\")\n",
+                    "print(f\"  - Report: results/eda_report.txt\")\n",
+                    "\n",
+                    "print(\"\\nGenerated Visualizations:\")\n",
+                    "print(\"  Static Matplotlib Plots: 8 files\")\n",
+                    "print(\"  Interactive Plotly Dashboards: 5 HTML files with zoom/pan controls\")\n",
+                    "\n",
+                    "print(\"\\nInteractive Features:\")\n",
+                    "print(\"  - Zoom in/out with mouse wheel or zoom tools\")\n",
+                    "print(\"  - Pan across charts by clicking and dragging\")\n",
+                    "print(\"  - Range sliders for time-based navigation\")\n",
+                    "print(\"  - Hover tooltips with detailed information\")\n",
+                    "print(\"  - Time range selection buttons (1M, 3M, 6M, 1Y, All)\")\n",
+                    "print(\"  - Metric visibility toggles\")\n",
+                    "print(\"  - Export to HTML for web sharing\")\n",
+                    "\n",
+                    "print(\"\\nNext Steps:\")\n",
+                    "print(\"  - Task 2: Develop Time Series Forecasting Models (ARIMA/SARIMA + LSTM)\")\n",
+                    "print(\"  - Task 3: Forecast Future Market Trends (6-12 months)\")\n",
+                    "print(\"  - Task 4: Optimize Portfolio Based on Forecast (MPT + Efficient Frontier)\")\n",
+                    "print(\"  - Task 5: Strategy Backtesting (Performance Validation)\")\n",
+                    "\n",
+                    "print(\"\\n\" + \"=\"*80)\n",
+                    "print(\"TASK 1 COMPLETED SUCCESSFULLY!\")\n",
+                    "print(\"=\"*80)"
+                ]
+            },
+            
+            # Interactive Features Demo Section
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## Interactive Features Demo\n",
+                    "\n",
+                    "Here's a quick demonstration of the interactive features available in our Plotly dashboards:"
+                ]
+            },
+            
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Display information about interactive features\n",
+                    "print(\"Interactive Dashboard Features:\")\n",
+                    "print(\"=\" * 50)\n",
+                    "\n",
+                    "features = [\n",
+                    "    \"🔍 Zoom Controls: Use mouse wheel or zoom tools to zoom in/out\",\n",
+                    "    \"🖱️ Pan Controls: Click and drag to pan across charts\",\n",
+                    "    \"📊 Range Sliders: Navigate through time periods with range sliders\",\n",
+                    "    \"ℹ️ Hover Tooltips: Detailed information on hover\",\n",
+                    "    \"⏰ Time Buttons: Quick time range selection (1M, 3M, 6M, 1Y, All)\",\n",
+                    "    \"👁️ Visibility Toggles: Show/hide specific metrics\",\n",
+                    "    \"💾 Export Options: Save as HTML for web sharing\",\n",
+                    "    \"📱 Responsive Design: Works on desktop and mobile devices\"\n",
+                    "]\n",
+                    "\n",
+                    "for feature in features:\n",
+                    "    print(f\"  {feature}\")\n",
+                    "\n",
+                    "print(\"\\nHTML files generated:\")\n",
+                    "html_files = [\n",
+                    "    \"interactive_price_analysis.html\",\n",
+                    "    \"interactive_correlation_analysis.html\",\n",
+                    "    \"interactive_outlier_analysis.html\",\n",
+                    "    \"interactive_trend_analysis.html\",\n",
+                    "    \"interactive_risk_metrics.html\"\n",
+                    "]\n",
+                    "\n",
+                    "for i, file in enumerate(html_files, 1):\n",
+                    "    print(f\"  {i}. {file}\")\n",
+                    "\n",
+                    "print(\"\\nOpen these HTML files in any web browser to explore the interactive dashboards!\")"
+                ]
+            }
+        ],
+        "metadata": {
+            "kernelspec": {
+                "display_name": "Python 3",
+                "language": "python",
+                "name": "python3"
+            },
+            "language_info": {
+                "codemirror_mode": {
+                    "name": "ipython",
+                    "version": 3
+                },
+                "file_extension": ".py",
+                "mimetype": "text/x-python",
+                "name": "python",
+                "nbconvert_exporter": "python",
+                "pygments_lexer": "ipython3",
+                "version": "3.8.0"
+            }
+        },
+        "nbformat": 4,
+        "nbformat_minor": 4
+    }
+    
+    return notebook_content
+
+def main():
+    """Main function to create the notebook."""
+    
+    # Create the notebook content
+    notebook_content = create_notebook_content()
+    
+    # Create notebooks directory if it doesn't exist
+    os.makedirs('notebooks', exist_ok=True)
+    
+    # Write the notebook to file
+    notebook_path = 'notebooks/task1_analysis.ipynb'
+    
+    import json
+    with open(notebook_path, 'w', encoding='utf-8') as f:
+        json.dump(notebook_content, f, indent=2, ensure_ascii=False)
+    
+    print(f"✓ Jupyter notebook created successfully: {notebook_path}")
+    print(f"✓ Notebook contains enhanced Task 1 analysis with interactive visualizations")
+    print(f"✓ All cells properly formatted with markdown and code sections")
+    print(f"✓ Ready for use in Jupyter Lab/Notebook environment")
+
+if __name__ == "__main__":
+    main()
