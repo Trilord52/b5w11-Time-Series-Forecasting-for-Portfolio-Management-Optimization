@@ -414,6 +414,17 @@ class FinancialDataPreprocessor:
             data.to_csv(filename)
             logger.info(f"Saved processed {symbol} data to {filename}")
 
+def fill_missing(df):
+    return df.fillna(method='ffill').fillna(method='bfill')
+
+# filepath: tests/test_preprocessing.py
+import pandas as pd
+from preprocessing import fill_missing
+
+def test_fill_missing():
+    df = pd.DataFrame({'A': [1, None, 3]})
+    filled = fill_missing(df)
+    assert filled.isnull().sum().sum() == 0
 
 def main():
     """
