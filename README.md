@@ -117,7 +117,7 @@ This project is developed for Guide Me in Finance (GMF) Investments to enhance p
 
 ---
 
-## Next Steps
+
 
 - Extend the workflow to include BND and SPY for multi-asset portfolio analysis.
 - Integrate the forecasts into portfolio optimization and backtesting modules.
