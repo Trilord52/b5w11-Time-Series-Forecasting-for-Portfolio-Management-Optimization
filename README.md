@@ -2,140 +2,127 @@
 
 ## Project Overview
 
-This project implements advanced time series forecasting and portfolio optimization for GMF Investments, focusing on three key assets: TSLA, BND, and SPY. The project demonstrates comprehensive financial data analysis, time series modeling, and Modern Portfolio Theory implementation.
+This project is developed for Guide Me in Finance (GMF) Investments to enhance portfolio management strategies using advanced time series forecasting. The focus is on leveraging historical financial data for TSLA, BND, and SPY to predict market trends, assess volatility, and support data-driven investment decisions.
 
-## Project Structure
+---
+
+## Repository Structure
 
 ```
-b5w11-Time-Series-Forecasting-for-Portfolio-Management-Optimization/
-├── src/                           # Source code modules
-│   ├── data_loader.py            # YFinance data fetching and validation
-│   ├── preprocessing.py           # Data cleaning and feature engineering
-│   ├── financial_metrics.py      # Risk metrics calculation (VaR, Sharpe, etc.)
-│   ├── eda.py                    # Exploratory data analysis and visualization
-│   ├── time_series_models.py     # ARIMA, SARIMA, and LSTM models (Task 2)
-│   ├── portfolio_optimization.py # MPT and efficient frontier (Task 4)
-│   └── backtesting.py            # Strategy validation (Task 5)
-├── notebooks/                     # Jupyter notebooks
-│   ├── task1_analysis.ipynb      # Task 1: Data loading, preprocessing, EDA
-│   ├── task2_forecasting.ipynb   # Task 2: Time series modeling (future)
-│   ├── task3_trends.ipynb        # Task 3: Future market trends (future)
-│   ├── task4_portfolio.ipynb     # Task 4: Portfolio optimization (future)
-│   └── task5_backtesting.ipynb   # Task 5: Strategy backtesting (future)
-├── data/                         # Data storage
-├── results/                      # Generated plots and reports
-├── requirements.txt              # Python dependencies
-└── README.md                     # This file
+.
+├── notebooks/
+│   ├── task2and3_forecasting.ipynb   # Main notebook for forecasting and trend analysis
+│   └── ...                           # Additional notebooks for other tasks
+├── src/
+│   ├── data_loader.py                # Module for fetching financial data
+│   ├── preprocessing.py              # Data cleaning and preprocessing utilities
+│   ├── forecasting_models.py         # ARIMA, SARIMA, and LSTM model classes
+│   └── ...                           # Other supporting modules
+├── results/
+│   └── forecasting/                  # Output forecasts and comparison tables
+├── requirements.txt                  # Python dependencies
+└── README.md
 ```
 
-## Features
+---
 
-### Task 1: Data Loading and Preprocessing ✅
-- **Efficient Data Loading**: YFinance integration with retry logic and error handling
-- **Advanced Preprocessing**: Missing value handling, feature engineering, data validation
-- **Comprehensive EDA**: Price analysis, return distributions, volatility analysis
-- **Financial Metrics**: VaR, Sharpe Ratio, Maximum Drawdown, stationarity tests
+## Workflow Description
 
-### Task 2: Time Series Forecasting (Future)
-- ARIMA/SARIMA models for statistical forecasting
-- LSTM neural networks for deep learning approach
-- Model comparison and validation
+### 1. Data Acquisition and Preprocessing
 
-### Task 3: Market Trend Analysis (Future)
-- Future price predictions with confidence intervals
-- Trend analysis and risk assessment
+- Historical daily price data for TSLA is downloaded using YFinance, covering July 2015 to December 2024.
+- The data is cleaned and normalized, with missing values handled using forward and backward fill to ensure continuity.
+- Exploratory data analysis (EDA) is performed to visualize trends, returns, and volatility.
 
-### Task 4: Portfolio Optimization (Future)
-- Modern Portfolio Theory implementation
-- Efficient frontier generation
-- Optimal portfolio weights calculation
+### 2. Model Development
 
-### Task 5: Strategy Backtesting (Future)
-- Historical strategy validation
-- Performance comparison with benchmarks
+- Three forecasting models are implemented:
+  - **ARIMA:** Captures linear trends and autocorrelation in the time series.
+  - **SARIMA:** Extends ARIMA to account for seasonality in the data.
+  - **LSTM:** A deep learning model designed to capture complex, non-linear temporal dependencies.
+- The data is split chronologically into training and testing sets to avoid look-ahead bias.
+- Each model is trained on the training set and evaluated on the test set.
 
-## Installation
+### 3. Model Evaluation
 
-1. **Clone the repository**:
-   ```bash
-   git clone <repository-url>
-   cd b5w11-Time-Series-Forecasting-for-Portfolio-Management-Optimization
-   ```
+- Model performance is assessed using several metrics:
+  - **Root Mean Squared Error (RMSE)**
+  - **Mean Absolute Error (MAE)**
+  - **Mean Absolute Percentage Error (MAPE)**
+  - **Direction Accuracy** (how often the model predicts the correct direction of price movement)
+- A comparison table summarizes the performance of all models.
 
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 4. Forecasting and Trend Analysis
 
-3. **Verify installation**:
-   ```bash
-   python -c "import yfinance, pandas, numpy, matplotlib, seaborn; print('All packages installed successfully!')"
-   ```
+- Each model generates a 12-month (252 trading days) forecast for TSLA.
+- Forecasts are visualized alongside historical data, with confidence intervals shown where available.
+- The forecasted period is analyzed for expected return, maximum and minimum forecasted prices, and overall trend (bullish or bearish).
 
-## Usage
+### 5. Risk and Volatility Analysis
 
-### Quick Start (Task 1)
+- The forecasted returns are analyzed to compute:
+  - **Value at Risk (VaR) at 95% confidence**
+  - **Maximum Drawdown**
+  - **Annualized Volatility**
+- These metrics help assess the risk profile of the forecasted period.
 
-1. **Run the main analysis notebook**:
-   ```bash
-   cd notebooks
-   jupyter notebook task1_analysis.ipynb
-   ```
+### 6. Visualization
 
-2. **Or run the data loader directly**:
-   ```bash
-   cd src
-   python data_loader.py
-   ```
+- The notebook includes clear, well-labeled plots for:
+  - Training and test data split
+  - Model forecasts vs. historical prices
+  - Forecasted returns distribution
+  - Cumulative returns
+  - Rolling volatility
+  - Comparison of all model forecasts
 
-### Data Sources
+### 7. Results and Outputs
 
-- **TSLA**: Tesla Inc. - High-growth, high-risk stock
-- **BND**: Vanguard Total Bond Market ETF - Low-risk, stable
-- **SPY**: SPDR S&P 500 ETF - Moderate-risk, diversified
+- The best-performing model is selected based on lowest RMSE.
+- Forecast data and model comparison tables are saved in the `results/forecasting/` directory for further analysis or reporting.
+- A summary and recommendations section is provided at the end of the notebook.
 
-### Key Metrics Calculated
+---
 
-- **Risk Measures**: VaR (95%, 99%), Maximum Drawdown, Volatility
-- **Return Metrics**: Sharpe Ratio, Sortino Ratio, Cumulative Returns
-- **Statistical Tests**: ADF Stationarity, Normality Tests, Correlation Analysis
+## How to Run This Project
 
-## Project Timeline
+1. **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+    Or, if you do not have a requirements file:
+    ```bash
+    pip install numpy pandas matplotlib seaborn scikit-learn tensorflow statsmodels yfinance
+    ```
 
-- **Interim Submission**: Sunday 10 Aug 2025, 20:00 UTC (Task 1)
-- **Final Submission**: Tuesday 12 Aug 2025, 20:00 UTC (All Tasks)
+2. **Run the notebook:**
+    - Open `notebooks/task2and3_forecasting.ipynb` in VS Code or Jupyter and run all cells sequentially.
+    - Alternatively, from the terminal:
+      ```bash
+      jupyter notebook notebooks/task2and3_forecasting.ipynb
+      ```
+    - Or, to execute and export the notebook:
+      ```bash
+      jupyter nbconvert --to notebook --execute notebooks/task2and3_forecasting.ipynb --output notebooks/task2and3_forecasting_output.ipynb
+      ```
 
-## Technical Details
+---
 
-### Data Processing
-- **Time Period**: July 1, 2015 - July 31, 2025
-- **Frequency**: Daily data
-- **Features**: OHLCV + 30+ engineered features
-- **Missing Data**: Advanced imputation strategies
+## Project Status
 
-### Model Architecture
-- **Statistical Models**: ARIMA, SARIMA with auto-parameter optimization
-- **Deep Learning**: LSTM with attention mechanisms
-- **Validation**: Time series cross-validation, out-of-sample testing
+- The forecasting and trend analysis workflow for TSLA is complete.
+- All code is modular, well-documented, and reproducible.
+- Results and visualizations are saved and clearly presented.
+- The project is ready for extension to portfolio optimization and backtesting.
 
-### Portfolio Optimization
-- **Framework**: Modern Portfolio Theory (MPT)
-- **Risk Metrics**: Variance, VaR, Conditional VaR
-- **Constraints**: Long-only, budget constraints, sector limits
+---
 
-## Contributing
 
-This project is developed for the 10 Academy KAIM program. For questions or collaboration, use the `#all-week11` tag.
 
-## License
+- Extend the workflow to include BND and SPY for multi-asset portfolio analysis.
+- Integrate the forecasts into portfolio optimization and backtesting modules.
+- Regularly update the models with new data to maintain forecasting accuracy.
 
-This project is for educational purposes as part of the 10 Academy curriculum.
+---
 
-## Acknowledgments
-
-- **Data Source**: YFinance (Yahoo Finance API)
-
-## Contact
-
-For project-related questions, please refer to the course materials and use the designated communication channels.
-
+*For questions, suggestions, or contributions, please open an issue or submit a
