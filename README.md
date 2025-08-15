@@ -181,21 +181,6 @@ pip install numpy pandas matplotlib seaborn scikit-learn tensorflow statsmodels 
 
 ---
 
-## Limitations & Next Steps
-
-- **Limitations:**
-  - Forecasts are based solely on historical price data; external factors (e.g., macroeconomic events) are not included.
-  - LSTM and ARIMA models may underperform in regime shifts or during market shocks.
-  - Transaction costs and slippage are modeled simply; real-world trading may incur higher costs.
-  - No live trading or real-time data integration.
-
-- **Next Steps:**
-  - Integrate additional assets and alternative data sources.
-  - Experiment with more advanced models (e.g., Prophet, Transformer-based models).
-  - Build a dashboard for real-time monitoring and reporting.
-  - Implement automated retraining and model monitoring pipelines.
-
----
 
 ## Contributing
 
