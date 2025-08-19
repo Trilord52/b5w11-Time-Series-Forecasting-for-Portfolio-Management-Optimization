@@ -26,3 +26,8 @@ ipykernel>=6.0.0
 # Additional utilities
 tqdm>=4.64.0
 requests>=2.25.0
+
+# Dashboard and web application
+streamlit>=1.28.0
+dash>=2.14.0
+dash-bootstrap-components>=1.5.0
