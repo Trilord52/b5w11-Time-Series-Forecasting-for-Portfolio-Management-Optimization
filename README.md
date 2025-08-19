@@ -8,7 +8,8 @@ We use historical and forecasted data for TSLA, BND, and SPY to:
 - Predict future price trends and volatility,
 - Construct optimal portfolios,
 - Backtest strategies against benchmarks,
-- Analyze risk and performance.
+- Analyze risk and performance,
+- Visualize insights through an interactive dashboard.
 
 ---
 
@@ -16,6 +17,7 @@ We use historical and forecasted data for TSLA, BND, and SPY to:
 
 - [Business Objective](#business-objective)
 - [Project Structure](#project-structure)
+- [Interactive Dashboard](#interactive-dashboard)
 - [Environment Setup](#environment-setup)
 - [Data Sources](#data-sources)
 - [Workflow Summary](#workflow-summary)
@@ -46,6 +48,7 @@ Guide Me in Finance (GMF) Investments is a forward-thinking financial advisory f
 
 ```
 .
+├── dashboard.py                            # Interactive Streamlit dashboard
 ├── notebooks/
 │   ├── task2and3_forecasting.ipynb         # Forecasting, trend, and risk analysis
 │   ├── task4_portfolio_optimization.ipynb  # Portfolio optimization
@@ -54,13 +57,50 @@ Guide Me in Finance (GMF) Investments is a forward-thinking financial advisory f
 │   ├── data_loader.py                      # Data fetching utilities
 │   ├── preprocessing.py                    # Data cleaning and feature engineering
 │   ├── forecasting_models.py               # ARIMA, SARIMA, LSTM model classes
-│   └── ...                                 # Additional modules/utilities
+│   ├── financial_metrics.py                # Risk metrics and financial calculations
+│   └── eda.py                              # Exploratory data analysis utilities
 ├── results/
-│   └── forecasting/                        # Output forecasts, weights, and comparison tables
-├── requirements.txt                        # Python dependencies
+│   ├── forecasting/                        # Output forecasts, weights, and comparison tables
+│   └── plots/                              # Generated visualizations and charts
+├── requirements.txt                        # Python dependencies (including dashboard)
 ├── README.md
 └── tests/                                  # (Optional) Unit tests for core functions
 ```
+
+---
+
+## Interactive Dashboard
+
+### Overview
+
+The project includes a comprehensive **Streamlit-based interactive dashboard** that provides real-time visualization and analysis of portfolio performance, risk metrics, and asset correlations.
+
+### Dashboard Features
+
+- **📊 Portfolio Overview**: Key performance indicators, asset selection, and data summary
+- **📈 Performance Analysis**: Interactive price charts, returns visualization, and performance metrics
+- **⚠️ Risk Analysis**: Risk-return scatter plots, VaR comparisons, and drawdown analysis
+- **🔗 Correlation Analysis**: Interactive correlation heatmaps and diversification insights
+
+### Key Capabilities
+
+- **Interactive Visualizations**: Plotly-powered charts with zoom, pan, and hover functionality
+- **Real-time Calculations**: Automatic metric updates based on asset selection
+- **Multi-Asset Analysis**: Comprehensive comparison across TSLA, BND, and SPY
+- **Risk Metrics**: Value at Risk (VaR), Sharpe ratios, maximum drawdown, and Sortino ratios
+- **Responsive Design**: Web-based interface accessible from any browser
+
+### Running the Dashboard
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Launch the interactive dashboard
+streamlit run dashboard.py
+```
+
+The dashboard will open in your browser at `http://localhost:8501` with an intuitive interface for exploring financial data and portfolio insights.
 
 ---
 
@@ -81,7 +121,7 @@ pip install -r requirements.txt
 If you do not have a requirements file, install dependencies manually:
 
 ```bash
-pip install numpy pandas matplotlib seaborn scikit-learn tensorflow statsmodels yfinance pypfopt plotly
+pip install numpy pandas matplotlib seaborn scikit-learn tensorflow statsmodels yfinance pypfopt plotly streamlit dash
 ```
 
 ---
@@ -152,6 +192,20 @@ pip install numpy pandas matplotlib seaborn scikit-learn tensorflow statsmodels 
 
 ## How to Run
 
+### Option 1: Interactive Dashboard (Recommended)
+
+```bash
+# Install all dependencies
+pip install -r requirements.txt
+
+# Launch the interactive dashboard
+streamlit run dashboard.py
+```
+
+The dashboard provides a comprehensive web interface for exploring all project features including data analysis, risk metrics, and portfolio insights.
+
+### Option 2: Jupyter Notebooks
+
 1. **Run the notebooks interactively:**
     ```bash
     jupyter notebook
@@ -169,18 +223,26 @@ pip install numpy pandas matplotlib seaborn scikit-learn tensorflow statsmodels 
     jupyter nbconvert --to notebook --execute notebooks/task4_portfolio_optimization.ipynb --output notebooks/task4_portfolio_optimization_output.ipynb
     ```
 
+### Option 3: Command Line Analysis
+
+```bash
+# Run individual analysis scripts
+python src/task1_analysis.py
+```
+
 ---
 
 ## Results & Interpretation
 
-- **Forecasting:** LSTM provided the best out-of-sample accuracy for TSLA, capturing both trend and volatility.
-- **Portfolio Optimization:** The Max Sharpe portfolio balanced risk and return, with realistic constraints.
-- **Backtesting:** The optimized portfolio was tested against a benchmark, with rolling window analysis and transaction costs included.
-- **Risk Analysis:** VaR, drawdown, and volatility metrics were calculated for both forecast and backtest periods.
-- **Visualizations:** All steps are supported by clear, labeled plots for transparency and interpretability.
+- **Interactive Dashboard:** Comprehensive web-based interface providing real-time portfolio analysis and risk visualization
+- **Forecasting:** LSTM provided the best out-of-sample accuracy for TSLA, capturing both trend and volatility
+- **Portfolio Optimization:** The Max Sharpe portfolio balanced risk and return, with realistic constraints
+- **Backtesting:** The optimized portfolio was tested against a benchmark, with rolling window analysis and transaction costs included
+- **Risk Analysis:** VaR, drawdown, and volatility metrics were calculated for both forecast and backtest periods
+- **Visualizations:** Interactive Plotly charts with zoom, pan, and hover capabilities for enhanced data exploration
+- **User Experience:** Streamlined interface enabling non-technical stakeholders to access complex financial insights
 
 ---
-
 
 ## Contributing
 
